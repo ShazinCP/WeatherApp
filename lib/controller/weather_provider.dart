@@ -7,4 +7,5 @@ class WeatherProvider extends ChangeNotifier {
     isLoaded = value;
     notifyListeners();
   }
+
 }
