@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:whether_app/model/weather_model.dart';
-import 'package:whether_app/services/weather_api_client.dart';
-import 'package:whether_app/view/widgets/additional_information.dart';
-import 'package:whether_app/view/widgets/current_weather.dart';
+import 'package:whether_app/constants/constants.dart';
+import 'package:whether_app/controller/weather_provider.dart';
+import 'package:whether_app/helper/colors.dart';
+import 'package:whether_app/view/home/widgets/additional_information.dart';
+import 'package:whether_app/view/home/widgets/current_weather.dart';
+import 'package:whether_app/view/widget/uppercase.dart';
 
 
 class HomeScreen extends StatefulWidget {
@@ -14,20 +16,14 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  WeatherApiClient client = WeatherApiClient();
 
-  Weather? data;
   TextEditingController weatherController= TextEditingController();
 
-  Future<void> getData(String place) async {
-    //let's try changing the city name
-    data = await client.getCurrentWeather(place);
-  }
 
   @override
   void initState() {
     super.initState();
-    getData('London');
+    Provider.of<WeatherProvider>(context,listen: false).getData('London');
   }
 
   @override
@@ -38,14 +34,14 @@ class _HomeScreenState extends State<HomeScreen> {
         // backgroundColor: Colors.grey[300],
         leading: IconButton(onPressed: () {}, icon: const Icon(Icons.menu)),
         title: const Text(
-          "Weather App",
+          "ClimaTrack",
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
         centerTitle: true,
       ),
-      body: Container(
+      body: SizedBox(
         height: MediaQuery.of(context).size.height,
-        child: Consumer(
+        child: Consumer<WeatherProvider>(
           builder: (context, value, child) {
             return Column(
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -54,13 +50,13 @@ class _HomeScreenState extends State<HomeScreen> {
                 padding: const EdgeInsets.all(10),
                 child: TextFormField(
                   onFieldSubmitted: (String place) {
-                    getData(place);
+                    value.getData(place);
                   },
                   controller: weatherController,
-                  cursorColor: Colors.black,
+                  cursorColor: cBlackColor,
                   style: const TextStyle(
                     fontSize: 20,
-                    color: Colors.black,
+                    color: cBlackColor,
                     letterSpacing: 2,
                     fontWeight: FontWeight.bold,
                   ),
@@ -80,44 +76,38 @@ class _HomeScreenState extends State<HomeScreen> {
                           size: 30,
                         ),
                       ),
-                      suffixIcon: weatherController.text.length > 0
+                      suffixIcon: weatherController.text.isNotEmpty
                           ? IconButton(
                               onPressed: () {
                                 weatherController.clear();
                               },
-                              icon: const Icon(Icons.cancel, color: Colors.red))
+                              icon: const Icon(Icons.cancel, color: cRedColor))
                           : null),
                 ),
               ),
-              const SizedBox(
-                height: 20,
-              ),
-              if (data != null)
+              cHeight20,
+              if (value.data != null)
                 currentWeather(
                   Icons.wb_sunny_rounded,
-                  "${data!.temp}°",
+                  "${value.data!.temp}°",
                   weatherController.text.isEmpty
                       ? 'London'
-                      : weatherController.text,
+                      : weatherController.text.capitalize(),
                 ),
-              const SizedBox(
-                height: 60,
-              ),
+              cHeight60,
               const Text(
                 'Additional information',
                 style: TextStyle(
                   fontSize: 24.0,
-                  color: Colors.black45,
+                  color: cBlackColor45,
                   fontWeight: FontWeight.bold,
                 ),
               ),
               const Divider(),
-              const SizedBox(
-                height: 10.0,
-              ),
-              if (data != null)
-                additionalInformation("${data!.wind}", "${data!.humidity}",
-                    "${data!.pressure}", "${data!.feels_like}"),
+              cHeight10,
+              if (value.data != null)
+                additionalInformation("${value.data!.wind}", "${value.data!.humidity}",
+                    "${value.data!.pressure}", "${value.data!.feels_like}"),
             ],
           );
           },

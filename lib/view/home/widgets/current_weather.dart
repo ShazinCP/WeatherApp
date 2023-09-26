@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:whether_app/helper/colors.dart';
+import 'package:whether_app/constants/constants.dart';
 
 Widget currentWeather(IconData icon, String temp, String location) {
   return Center(
@@ -6,22 +8,18 @@ Widget currentWeather(IconData icon, String temp, String location) {
       crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        const SizedBox(height: 30),
+        cHeight30,
         Icon(
           icon,
-          color: Colors.orange,
+          color: cOrangeColor,
           size: 64.0,
         ),
-        const SizedBox(
-          height: 10.0,
-        ),
+       cHeight10,
         Text(
           temp,
           style: const TextStyle(fontSize: 46.0),
         ),
-        const SizedBox(
-          height: 10.0,
-        ),
+        cHeight10,
         Text(
           location,
           style: const TextStyle(fontSize: 18.0, color: Color(0xFF5a5a5a)),

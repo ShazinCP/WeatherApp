@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:whether_app/constants/constants.dart';
 
   TextStyle titleFont = const TextStyle(fontWeight: FontWeight.w600, fontSize: 18.0);
 
@@ -23,7 +24,7 @@ Widget additionalInformation(
                   "Wind",
                   style: titleFont
                 ),
-                const SizedBox(height: 18.0),
+                cHeight18,
                 Text(
                   "pressure",
                   style: titleFont,
@@ -38,7 +39,7 @@ Widget additionalInformation(
                   wind,
                   style: titleFont
                 ),
-                const SizedBox(height: 18.0),
+                cHeight18,
                 Text(
                  pressure,
                   style: titleFont,
@@ -53,7 +54,7 @@ Widget additionalInformation(
                   "Humidity",
                   style: titleFont
                 ),
-                const SizedBox(height: 18.0),
+                cHeight18,
                 Text(
                   "Feels Lke",
                   style: titleFont,
@@ -68,7 +69,7 @@ Widget additionalInformation(
                   humidity,
                   style: titleFont
                 ),
-                const SizedBox(height: 18.0),
+                cHeight18,
                 Text(
                   feels_like,
                   style: titleFont,
